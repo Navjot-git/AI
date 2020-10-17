@@ -28,19 +28,41 @@ class algo(object):
                 
         return mismatch
     
-    def h2(self):
+    def h2(self, currState, goalState):
         
-        initial_state = [1, 5, 3, 4, 2, 6, 7, 8, 0]
-        goal_state = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
-        def calculateManhattan(initial_state):
-            initial_config = initial_state
-            manDict = 0
-            for i, item in enumerate(initial_config):
-                prev_row, prev_col = int(i / 3) , i % 3
-                goal_row, goal_col = int(item / 3), item % 3
-                manDict += abs(prev_row - goal_row) + abs(prev_col - goal_col)
-            return manDict
+        dist = 0
+        for i in range(len(currState)):
+            for j in range(len(currState[i])):
+                
+                numb = currState[i][j]
+                for k, x in enumerate(goalState):
+                    if numb in x:
+                        a = k
+                        b = x.index(numb)
+   
+                if i == j and a == b:
+                    if abs(i - a) == 1:
+                        dist += 2
+                    elif abs(i - a) == 2:
+                        dist += 4
+                elif i == a:
+                    if abs(j - b) == 1:
+                        dist += 1
+                    elif abs(j - b) == 2:
+                        dist += 2
+                elif j == b:
+                    if abs(i - a) == 1:
+                        dist += 1
+                    elif abs(i - a) == 2:
+                        dist += 2
+                elif i == b and j == a:
+                        dist += 2
+                elif i == j and i != 0 and a == b:
+                    dist += 2
+                else:
+                    dist += 3
+                    
+        return dist
         
     # open list
     # contains all the nodes that are being generated and don't exist in closed list
